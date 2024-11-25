@@ -25,6 +25,9 @@ check_recovery_folder() {
     return 0
 }
 
+curl -kLO https://raw.githubusercontent.com/acidanthera/OpenCorePkg/refs/heads/master/Utilities/macrecovery/macrecovery.py
+chmod +x macrecovery.py
+
 echo 'Select a macOS recovery version:'
 select option in "Lion (10.7.5)" "Mountain Lion (10.8.5)" "Mavericks (10.9.5)" "Yosemite (10.10.5)" "El Capitan (10.11.6)" "Sierra (10.12.6)" "High Sierra (10.13.6)" "Mojave (10.14.6)" "Catalina (10.15.7)" "Big Sur (11.7.10)" "Monterey (12.7.6)" "Ventura (13.7.1)" "Sonoma (14.7.1)" "Sequoia (15.1.1)" "Exit"
 do
