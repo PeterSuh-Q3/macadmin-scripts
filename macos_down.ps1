@@ -5,7 +5,7 @@ function Read-Answer {
         switch -Regex ($answ.ToLower()) {
             '^y(es)?$' { return $true }
             '^n(o)?$' { return $false }
-            default { Write-Host "y 또는 n으로 대답해주세요." }
+            default { Write-Host "Please answer with y or n." }
         }
     } while ($true)
 }
@@ -13,9 +13,9 @@ function Read-Answer {
 # Function to check if the recovery folder exists and prompt the user
 function Check-RecoveryFolder {
     if (Test-Path -Path ".\com.apple.recovery.boot") {
-        Write-Host ".\com.apple.recovery.boot 폴더가 존재합니다. macOS가 덮어쓰여집니다. 계속하시겠습니까? (y/n)"
+        Write-Host "The .\com.apple.recovery.boot folder exists. macOS will be overwritten. Do you want to continue? (y/n)"
         if (-not (Read-Answer)) {
-            Write-Host "사용자에 의해 작업이 취소되었습니다."
+            Write-Host "Operation cancelled by user."
             return $false
         }
     }
@@ -24,12 +24,12 @@ function Check-RecoveryFolder {
 
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/acidanthera/OpenCorePkg/master/Utilities/macrecovery/macrecovery.py" -OutFile "macrecovery.py"
 
-Write-Host 'macOS 복구 버전을 선택하세요:'
+Write-Host 'Select a macOS recovery version:'
 $options = @(
     "Lion (10.7.5)", "Mountain Lion (10.8.5)", "Mavericks (10.9.5)", "Yosemite (10.10.5)",
     "El Capitan (10.11.6)", "Sierra (10.12.6)", "High Sierra (10.13.6)", "Mojave (10.14.6)",
     "Catalina (10.15.7)", "Big Sur (11.7.10)", "Monterey (12.7.6)", "Ventura (13.7.1)",
-    "Sonoma (14.7.1)", "Sequoia (15.1.1)", "종료"
+    "Sonoma (14.7.1)", "Sequoia (15.1.1)", "Exit"
 )
 
 for ($i = 0; $i -lt $options.Count; $i++) {
@@ -37,7 +37,7 @@ for ($i = 0; $i -lt $options.Count; $i++) {
 }
 
 do {
-    $selection = Read-Host "번호를 선택하세요"
+    $selection = Read-Host "Please select a number"
     switch ($selection) {
         1 { if (Check-RecoveryFolder) { python3 macrecovery.py -b Mac-2E6FAB96566FE58C -m 00000000000F25Y00 download } }
         2 { if (Check-RecoveryFolder) { python3 macrecovery.py -b Mac-7DF2A3B5E5D671ED -m 00000000000F65100 download } }
@@ -53,7 +53,7 @@ do {
         12 { if (Check-RecoveryFolder) { python3 macrecovery.py -b Mac-B4831CEBD52A0C4C -m 00000000000000000 download } }
         13 { if (Check-RecoveryFolder) { python3 macrecovery.py -b Mac-827FAC58A8FDFA22 -m 00000000000000000 download } }
         14 { if (Check-RecoveryFolder) { python3 macrecovery.py -b Mac-937A206F2EE63C01 -m 00000000000000000 download } }
-        15 { Write-Host "메뉴를 종료합니다."; break }
-        default { Write-Host "잘못된 선택입니다." }
+        15 { Write-Host "Exiting the menu."; break }
+        default { Write-Host "Invalid selection." }
     }
 } while ($selection -ne 15)
