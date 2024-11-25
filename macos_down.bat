@@ -43,20 +43,20 @@ echo 15) Exit
 
 set /p choice=Choose an option:
 
-if "%choice%"=="1" call :check_recovery_folder && python macrecovery.py -b Mac-2E6FAB96566FE58C -m 00000000000F25Y00 download
-if "%choice%"=="2" call :check_recovery_folder && python macrecovery.py -b Mac-7DF2A3B5E5D671ED -m 00000000000F65100 download
-if "%choice%"=="3" call :check_recovery_folder && python macrecovery.py -b Mac-F60DEB81FF30ACF6 -m 00000000000FNN100 download
-if "%choice%"=="4" call :check_recovery_folder && python macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000GDVW00 download
-if "%choice%"=="5" call :check_recovery_folder && python macrecovery.py -b Mac-FFE5EF870D7BA81A -m 00000000000GQRX00 download
-if "%choice%"=="6" call :check_recovery_folder && python macrecovery.py -b Mac-77F17D7DA9285301 -m 00000000000J0DX00 download
-if "%choice%"=="7" call :check_recovery_folder && python macrecovery.py -b Mac-7BA5B2D9E42DDD94 -m 00000000000J80300 download
-if "%choice%"=="8" call :check_recovery_folder && python macrecovery.py -b Mac-7BA5B2DFE22DDD8C -m 00000000000KXPG00 download
-if "%choice%"=="9" call :check_recovery_folder && python macrecovery.py -b Mac-CFF7D910A743CAAF -m 00000000000PHCD00 download
-if "%choice%"=="10" call :check_recovery_folder && python macrecovery.py -b Mac-2BD1B31983FE1663 -m 00000000000000000 download
-if "%choice%"=="11" call :check_recovery_folder && python macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000000000 download
-if "%choice%"=="12" call :check_recovery_folder && python macrecovery.py -b Mac-B4831CEBD52A0C4C -m 00000000000000000 download
-if "%choice%"=="13" call :check_recovery_folder && python macrecovery.py -b Mac-827FAC58A8FDFA22 -m 00000000000000000 download
-if "%choice%"=="14" call :check_recovery_folder && python macrecovery.py -b Mac-937A206F2EE63C01 -m 00000000000000000 download
+if "%choice%"=="1" call :check_recovery_folder && python3 macrecovery.py -b Mac-2E6FAB96566FE58C -m 00000000000F25Y00 download
+if "%choice%"=="2" call :check_recovery_folder && python3 macrecovery.py -b Mac-7DF2A3B5E5D671ED -m 00000000000F65100 download
+if "%choice%"=="3" call :check_recovery_folder && python3 macrecovery.py -b Mac-F60DEB81FF30ACF6 -m 00000000000FNN100 download
+if "%choice%"=="4" call :check_recovery_folder && python3 macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000GDVW00 download
+if "%choice%"=="5" call :check_recovery_folder && python3 macrecovery.py -b Mac-FFE5EF870D7BA81A -m 00000000000GQRX00 download
+if "%choice%"=="6" call :check_recovery_folder && python3 macrecovery.py -b Mac-77F17D7DA9285301 -m 00000000000J0DX00 download
+if "%choice%"=="7" call :check_recovery_folder && python3 macrecovery.py -b Mac-7BA5B2D9E42DDD94 -m 00000000000J80300 download
+if "%choice%"=="8" call :check_recovery_folder && python3 macrecovery.py -b Mac-7BA5B2DFE22DDD8C -m 00000000000KXPG00 download
+if "%choice%"=="9" call :check_recovery_folder && python3 macrecovery.py -b Mac-CFF7D910A743CAAF -m 00000000000PHCD00 download
+if "%choice%"=="10" call :check_recovery_folder && python3 macrecovery.py -b Mac-2BD1B31983FE1663 -m 00000000000000000 download
+if "%choice%"=="11" call :check_recovery_folder && python3 macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000000000 download
+if "%choice%"=="12" call :check_recovery_folder && python3 macrecovery.py -b Mac-B4831CEBD52A0C4C -m 00000000000000000 download
+if "%choice%"=="13" call :check_recovery_folder && python3 macrecovery.py -b Mac-827FAC58A8FDFA22 -m 00000000000000000 download
+if "%choice%"=="14" call :check_recovery_folder && python3 macrecovery.py -b Mac-937A206F2EE63C01 -m 00000000000000000 download
 if "%choice%"=="15" (
     echo Exiting the menu.
     exit /b
