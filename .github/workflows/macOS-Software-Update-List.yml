@@ -14,7 +14,6 @@ jobs:
 
       - name: Run softwareupdate command
         run: |
-          # OS 명칭과 버전 추출
           softwareupdate --list-full-installers | grep macOS | awk -F', ' '/^* Title:/ {split($1, a, ": ");
               split($2, b, ": ");
               print a[2], b[2];
@@ -22,40 +21,37 @@ jobs:
 
           cat ./list.txt
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
       - name: Extract latest versions
         run: |
-          # list.txt에서 각 OS의 최신 버전만 남기기
-          awk '{
-              split($2, ver, ".");
-              version = ver[1] * 1000000 + ver[2] * 1000 + ver[3];
-              if (version > max[$1] || !($1 in max)) {
-                  max[$1] = version;
-                  latest[$1] = $2;
-              }
-          }
-          END {
-              for (os in latest) {
-                  print os, latest[os];
-              }
-          }' list.txt | sort -k1,1 -k2,2nr > temp2.txt && mv temp2.txt latest_versions.txt
+          python3 - <<EOF
+          import re
+          from collections import defaultdict
+
+          def extract_latest_versions(input_file, output_file):
+              versions = defaultdict(lambda: [0, ''])
+              
+              with open(input_file, 'r') as f:
+                  for line in f:
+                      match = re.match(r'(macOS \w+) (\d+(?:\.\d+)*)', line.strip())
+                      if match:
+                          os, version = match.groups()
+                          version_tuple = tuple(map(int, version.split('.')))
+                          if version_tuple > tuple(map(int, versions[os][1].split('.'))):
+                              versions[os] = [version_tuple, version]
+              
+              with open(output_file, 'w') as f:
+                  for os in sorted(versions.keys()):
+                      f.write(f"{os} {versions[os][1]}\n")
+
+          extract_latest_versions('list.txt', 'latest_versions.txt')
+          EOF
 
           cat ./latest_versions.txt
-
-      #- name: Update PowerShell script
-      #  run: |
-      #    sed -i '' -E 's/(macOSVersions\s*=\s*@\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ',' | sed 's/,$//')"'\2/' macos_down.ps1
-
-      #- name: Update Shell script
-      #  run: |
-      #    sed -i '' -E 's/(macOSVersions=\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ' ' | sed 's/ $//')"'\2/' macos_down.sh
-
-      #- name: Commit and push changes
-      #  run: |
-      #    git config --local user.email "action@github.com"
-      #    git config --local user.name "GitHub Action"
-      #    git add list.txt latest_versions.txt macos_down.ps1 macos_down.sh
-      #    git commit -m "Update macOS versions and scripts"
-      #    git push
 
       - name: Upload files as artifacts
         uses: actions/upload-artifact@v3
@@ -64,5 +60,3 @@ jobs:
           path: |
             list.txt
             latest_versions.txt
-            #macos_down.ps1
-            #macos_down.sh
