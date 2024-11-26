@@ -59,39 +59,54 @@ jobs:
       - name: Update PowerShell script
         run: |
           python3 - <<EOF
+          import re
+
+          # 최신 버전 정보 읽기
           with open('latest_versions.txt', 'r') as f:
-              latest_versions = f.read()
+              latest_versions = f.read().strip().split('\n')
 
+          # 최신 버전 딕셔너리 생성
+          latest_versions_dict = {' '.join(line.split()[:-1]): line.split()[-1] for line in latest_versions}
+
+          # PowerShell 스크립트 읽기
           with open('macos_down.ps1', 'r') as f:
-              macos_down_content = f.read()
+              ps_content = f.read()
 
-          latest_versions_dict = {}
-          for line in latest_versions.strip().split('\n'):
-              parts = line.split()
-              version_name = ' '.join(parts[:-1])
-              version_number = parts[-1]
-              latest_versions_dict[version_name] = version_number
-
-          updated_options = []
-          for option in macos_down_content.strip().split('"')[1::2]:
-              if option == "Exit":
-                  updated_options.append(option)
-                  continue
+          # $options 배열 찾기
+          options_match = re.search(r'\$options\s*=\s*@\((.*?)\)', ps_content, re.DOTALL)
+          if options_match:
+              old_options = options_match.group(1)
               
-              version_name = ' '.join(option.split()[:-1])
-              if version_name in latest_versions_dict:
-                  updated_option = f'{version_name} ({latest_versions_dict[version_name]})'
-                  updated_options.append(updated_option)
-              else:
-                  updated_options.append(option)
+              # 각 옵션 업데이트
+              new_options = []
+              for option in old_options.split(','):
+                  option = option.strip().strip('"')
+                  if option == "Exit":
+                      new_options.append(f'"{option}"')
+                  else:
+                      os_name = ' '.join(option.split()[:-1])
+                      if os_name in latest_versions_dict:
+                          new_version = latest_versions_dict[os_name]
+                          new_option = f'"{os_name} ({new_version})"'
+                      else:
+                          new_option = f'"{option}"'
+                      new_options.append(new_option)
 
-          updated_content = 'select option in "' + '" "'.join(updated_options) + '"'
+              # 새 $options 배열 생성
+              new_options_str = ',\n    '.join(new_options)
+              new_options_array = f'$options = @(\n    {new_options_str}\n)'
 
-          with open('macos_down.ps1', 'w') as f:
-              f.write(updated_content)
+              # 기존 $options 배열 교체
+              updated_content = ps_content.replace(options_match.group(0), new_options_array)
 
-          print("Updated macos_down.ps1:")
-          print(updated_content)
+              # 업데이트된 내용 저장
+              with open('macos_down.ps1', 'w') as f:
+                  f.write(updated_content)
+
+              print("Updated $options array in macos_down.ps1:")
+              print(new_options_array)
+          else:
+              print("$options array not found in macos_down.ps1")
           EOF
 
       #- name: Commit and push changes
