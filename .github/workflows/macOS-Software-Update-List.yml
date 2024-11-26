@@ -40,9 +40,12 @@ jobs:
                       match = re.match(r'(macOS \w+) (\d+(?:\.\d+)*)', line.strip())
                       if match:
                           os, version = match.groups()
-                          version_tuple = tuple(map(int, version.split('.')))
-                          if version_tuple > tuple(map(int, versions[os][1].split('.'))):
-                              versions[os] = [version_tuple, version]
+                          try:
+                              version_tuple = tuple(map(lambda x: int(x or 0), version.split('.')))
+                              if version_tuple > tuple(map(lambda x: int(x or 0), versions[os][1].split('.'))):
+                                  versions[os] = [version_tuple, version]
+                          except ValueError as e:
+                              print(f"Error processing version {version} for {os}: {e}")
               
               with open(output_file, 'w') as f:
                   for os in sorted(versions.keys()):
