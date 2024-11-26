@@ -83,6 +83,8 @@ jobs:
           with open('latest_versions.txt', 'r') as f:
               latest_versions = f.read().strip().split('\n')
 
+          print(latest_versions)    
+
           # 최신 버전 정보로 딕셔너리 업데이트
           for line in latest_versions:
               os_name, version = line.rsplit(' ', 1)
@@ -97,9 +99,13 @@ jobs:
           new_options_str = ',\n    '.join(updated_options)
           new_options_array = f'$options = @(\n    {new_options_str}\n)'
 
+          print(new_options_array)
+
           # macos_down.ps1 파일 읽기
           with open('macos_down.ps1', 'r') as f:
               ps_content = f.read()
+
+          print(ps_content)    
 
           # $options 배열 찾아 교체
           options_pattern = r'\$options\s*=\s*@\([^)]+\)'
