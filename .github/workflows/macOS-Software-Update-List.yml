@@ -1,0 +1,32 @@
+name: macOS Software Update List
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # 매일 자정에 실행
+
+jobs:
+  list-installers:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run softwareupdate command
+        run: |
+          softwareupdate --list-full-installers > list.txt
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add list.txt
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update software update list"
+          git push
+
+      - name: Upload list.txt as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: software-update-list
+          path: list.txt
+          
