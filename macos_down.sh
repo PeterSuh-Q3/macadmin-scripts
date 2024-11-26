@@ -29,7 +29,7 @@ curl -kLO https://raw.githubusercontent.com/acidanthera/OpenCorePkg/refs/heads/m
 chmod +x macrecovery.py
 
 echo 'Select a macOS recovery version:'
-select option in "Lion (10.7.5)" "Mountain Lion (10.8.5)" "Mavericks (10.9.5)" "Yosemite (10.10.5)" "El Capitan (10.11.6)" "Sierra (10.12.6)" "High Sierra (10.13.6)" "Mojave (10.14.6)" "Catalina (10.15.7)" "Big Sur (11.7.10)" "Monterey (12.7.6)" "Ventura (13.7.1)" "Sonoma (14.7.1)" "Sequoia (15.1.1)" "Exit"
+select option in "macOS Lion (10.7.5)" "macOS Mountain Lion (10.8.5)" "macOS Mavericks (10.9.5)" "macOS Yosemite (10.10.5)" "macOS El Capitan (10.11.6)" "macOS Sierra (10.12.6)" "macOS High Sierra (10.13.6)" "macOS Mojave (10.14.6)" "macOS Catalina (10.15.7)" "macOS Big Sur (11.7.10)" "macOS Monterey (12.7.6)" "macOS Ventura (13.7.1)" "macOS Sonoma (14.7.1)" "macOS Sequoia (15.1.1)" "Exit"
 do
     case $REPLY in
         1) check_recovery_folder && ./macrecovery.py -b Mac-2E6FAB96566FE58C -m 00000000000F25Y00 download ;;
