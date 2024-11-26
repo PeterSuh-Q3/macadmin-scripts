@@ -24,6 +24,8 @@ jobs:
               split($2, b, ": ");
               print a[2], b[2];
           }' list.txt > temp.txt
+
+          cat ./temp.txt
           
           # temp.txt에서 각 OS의 최신 버전만 남기기
           awk '{
@@ -38,7 +40,9 @@ jobs:
               for (os in latest) {
                   print os, latest[os];
               }
-          }' temp.txt | sort -k1,1 -k2,2nr > temp2.txt && mv temp2.txt latest_versions.txt        
+          }' temp.txt | sort -k1,1 -k2,2nr > temp2.txt && mv temp2.txt latest_versions.txt
+
+          cat ./latest_versions.txt
 
       #- name: Update PowerShell script
       #  run: |
