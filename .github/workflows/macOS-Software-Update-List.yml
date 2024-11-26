@@ -112,14 +112,14 @@ jobs:
           EOF
 
           cat ./macos_down.ps1
-          
+
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add list.txt latest_versions.txt macos_down.ps1
-          git commit -m "Update macOS versions and scripts"
-          git push
+          git diff-index --quiet HEAD || git commit -m "Update macOS versions and scripts"
+          git push || true
 
       - name: Upload files as artifacts
         uses: actions/upload-artifact@v3
