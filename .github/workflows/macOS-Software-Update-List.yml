@@ -18,18 +18,27 @@ jobs:
 
       - name: Extract latest versions
         run: |
-          awk '/^macOS/ {
-            split($2, v, ".");
-            version = v[1] "." v[2];
-            if ($NF > latest[version] || !(version in latest)) {
-              latest[version] = $NF;
-            }
+          # list.txt에서 OS 명칭과 버전 추출
+          awk -F', ' '/^* Title:/ {
+              split($1, a, ": ");
+              split($2, b, ": ");
+              print a[2], b[2];
+          }' list.txt > temp.txt
+          
+          # temp.txt에서 각 OS의 최신 버전만 남기기
+          awk '{
+              split($2, ver, ".");
+              version = ver[1] * 1000000 + ver[2] * 1000 + ver[3];
+              if (version > max[$1] || !($1 in max)) {
+                  max[$1] = version;
+                  latest[$1] = $2;
+              }
           }
           END {
-            for (v in latest) {
-              print v, latest[v];
-            }
-          }' list.txt | sort -V > latest_versions.txt
+              for (os in latest) {
+                  print os, latest[os];
+              }
+          }' temp.txt | sort -k1,1 -k2,2nr > temp2.txt && mv temp2.txt latest_versions.txt        
 
       #- name: Update PowerShell script
       #  run: |
