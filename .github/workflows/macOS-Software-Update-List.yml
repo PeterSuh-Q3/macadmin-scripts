@@ -101,7 +101,7 @@ jobs:
               ps_content = f.readlines()
 
           # 라인 28부터 44까지 교체
-          ps_content[27:44] = new_options_array.split('\n')
+          ps_content[27:44] = [new_options_array]
 
           # 업데이트된 내용 저장
           with open('macos_down.ps1', 'w') as f:
