@@ -105,6 +105,8 @@ jobs:
           options_pattern = r'\$options\s*=\s*@\([^)]+\)'
           if re.search(options_pattern, ps_content):
               updated_content = re.sub(options_pattern, new_options_array, ps_content)
+
+              print(updated_content)
               
               # 업데이트된 내용 저장
               with open('macos_down.ps1', 'w') as f:
