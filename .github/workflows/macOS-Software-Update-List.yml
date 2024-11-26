@@ -56,6 +56,20 @@ jobs:
 
           cat ./latest_versions.txt
 
+      #- name: Update PowerShell script
+      #  run: |
+      #    sed -i '' -E 's/(macOSVersions\s*=\s*@\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ',' | sed 's/,$//')"'\2/' macos_down.ps1
+      #- name: Update Shell script
+      #  run: |
+      #    sed -i '' -E 's/(macOSVersions=\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ' ' | sed 's/ $//')"'\2/' macos_down.sh
+      #- name: Commit and push changes
+      #  run: |
+      #    git config --local user.email "action@github.com"
+      #    git config --local user.name "GitHub Action"
+      #    git add list.txt latest_versions.txt macos_down.ps1 macos_down.sh
+      #    git commit -m "Update macOS versions and scripts"
+      #    git push
+      
       - name: Upload files as artifacts
         uses: actions/upload-artifact@v3
         with:
