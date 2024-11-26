@@ -94,7 +94,7 @@ jobs:
           updated_options.append('    "Exit"')
 
           # 새 options 배열 문자열 생성 (요구사항에 맞는 형식)
-          new_options_array = '$options = @(\n' + '\n'.join(updated_options) + '\n)'
+          new_options_array = '\$options = @(\n' + '\n'.join(updated_options) + '\n)'
 
           # macos_down.ps1 파일 읽기
           with open('macos_down.ps1', 'r') as f:
