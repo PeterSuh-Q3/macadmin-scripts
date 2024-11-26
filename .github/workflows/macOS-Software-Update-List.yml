@@ -1,4 +1,4 @@
-name: macOS Software Update List
+name: macOS Software Update List and Version Update
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     - cron: '0 0 * * *'  # 매일 자정에 실행
 
 jobs:
-  list-installers:
+  update-macos-versions:
     runs-on: macos-latest
     steps:
       - name: Checkout repository
@@ -16,17 +16,43 @@ jobs:
         run: |
           softwareupdate --list-full-installers > list.txt
 
-      - name: Commit and push if changed
+      - name: Extract latest versions
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add list.txt
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update software update list"
-          git push
+          awk '/^macOS/ {
+            split($2, v, ".");
+            version = v[1] "." v[2];
+            if ($NF > latest[version] || !(version in latest)) {
+              latest[version] = $NF;
+            }
+          }
+          END {
+            for (v in latest) {
+              print v, latest[v];
+            }
+          }' list.txt | sort -V > latest_versions.txt
 
-      - name: Upload list.txt as artifact
+      #- name: Update PowerShell script
+      #  run: |
+      #    sed -i '' -E 's/(macOSVersions\s*=\s*@\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ',' | sed 's/,$//')"'\2/' macos_down.ps1
+
+      #- name: Update Shell script
+      #  run: |
+      #    sed -i '' -E 's/(macOSVersions=\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ' ' | sed 's/ $//')"'\2/' macos_down.sh
+
+      #- name: Commit and push changes
+      #  run: |
+      #    git config --local user.email "action@github.com"
+      #    git config --local user.name "GitHub Action"
+      #    git add list.txt latest_versions.txt macos_down.ps1 macos_down.sh
+      #    git commit -m "Update macOS versions and scripts"
+      #    git push
+
+      - name: Upload files as artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: software-update-list
-          path: list.txt
-          
+          name: updated-files
+          path: |
+            list.txt
+            latest_versions.txt
+            #macos_down.ps1
+            #macos_down.sh
