@@ -14,20 +14,17 @@ jobs:
 
       - name: Run softwareupdate command
         run: |
-          softwareupdate --list-full-installers > list.txt
+          # OS 명칭과 버전 추출
+          softwareupdate --list-full-installers | grep macOS | awk -F', ' '/^* Title:/ {split($1, a, ": ");
+              split($2, b, ": ");
+              print a[2], b[2];
+          }' > list.txt
+
+          cat ./list.txt
 
       - name: Extract latest versions
         run: |
-          # list.txt에서 OS 명칭과 버전 추출
-          awk -F', ' '/^* Title:/ {
-              split($1, a, ": ");
-              split($2, b, ": ");
-              print a[2], b[2];
-          }' list.txt > temp.txt
-
-          cat ./temp.txt
-          
-          # temp.txt에서 각 OS의 최신 버전만 남기기
+          # list.txt에서 각 OS의 최신 버전만 남기기
           awk '{
               split($2, ver, ".");
               version = ver[1] * 1000000 + ver[2] * 1000 + ver[3];
@@ -40,7 +37,7 @@ jobs:
               for (os in latest) {
                   print os, latest[os];
               }
-          }' temp.txt | sort -k1,1 -k2,2nr > temp2.txt && mv temp2.txt latest_versions.txt
+          }' list.txt | sort -k1,1 -k2,2nr > temp2.txt && mv temp2.txt latest_versions.txt
 
           cat ./latest_versions.txt
 
