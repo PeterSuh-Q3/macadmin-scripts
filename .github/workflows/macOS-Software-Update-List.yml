@@ -56,20 +56,52 @@ jobs:
 
           cat ./latest_versions.txt
 
-      #- name: Update PowerShell script
-      #  run: |
-      #    sed -i '' -E 's/(macOSVersions\s*=\s*@\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ',' | sed 's/,$//')"'\2/' macos_down.ps1
-      #- name: Update Shell script
-      #  run: |
-      #    sed -i '' -E 's/(macOSVersions=\().*(\))/\1'"$(cat latest_versions.txt | tr '\n' ' ' | sed 's/ $//')"'\2/' macos_down.sh
+      - name: Update PowerShell script
+        run: |
+          python3 - <<EOF
+          with open('latest_versions.txt', 'r') as f:
+              latest_versions = f.read()
+
+          with open('macos_down.ps1', 'r') as f:
+              macos_down_content = f.read()
+
+          latest_versions_dict = {}
+          for line in latest_versions.strip().split('\n'):
+              parts = line.split()
+              version_name = ' '.join(parts[:-1])
+              version_number = parts[-1]
+              latest_versions_dict[version_name] = version_number
+
+          updated_options = []
+          for option in macos_down_content.strip().split('"')[1::2]:
+              if option == "Exit":
+                  updated_options.append(option)
+                  continue
+              
+              version_name = ' '.join(option.split()[:-1])
+              if version_name in latest_versions_dict:
+                  updated_option = f'{version_name} ({latest_versions_dict[version_name]})'
+                  updated_options.append(updated_option)
+              else:
+                  updated_options.append(option)
+
+          updated_content = 'select option in "' + '" "'.join(updated_options) + '"'
+
+          with open('macos_down.ps1', 'w') as f:
+              f.write(updated_content)
+
+          print("Updated macos_down.ps1:")
+          print(updated_content)
+          EOF
+
       #- name: Commit and push changes
       #  run: |
       #    git config --local user.email "action@github.com"
       #    git config --local user.name "GitHub Action"
-      #    git add list.txt latest_versions.txt macos_down.ps1 macos_down.sh
+      #    git add list.txt latest_versions.txt macos_down.ps1
       #    git commit -m "Update macOS versions and scripts"
       #    git push
-      
+
       - name: Upload files as artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -77,3 +109,4 @@ jobs:
           path: |
             list.txt
             latest_versions.txt
+            macos_down.ps1
