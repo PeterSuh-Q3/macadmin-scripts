@@ -25,11 +25,23 @@ function Check-RecoveryFolder {
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/acidanthera/OpenCorePkg/master/Utilities/macrecovery/macrecovery.py" -OutFile "macrecovery.py"
 
 Write-Host 'Select a macOS recovery version:'
-$options = @(
-    "macOS Lion (10.7.5)", "macOS Mountain Lion (10.8.5)", "macOS Mavericks (10.9.5)", "macOS Yosemite (10.10.5)",
-    "macOS El Capitan (10.11.6)", "macOS Sierra (10.12.6)", "macOS High Sierra (10.13.6)", "macOS Mojave (10.14.6)",
-    "macOS Catalina (10.15.7)", "macOS Big Sur (11.7.10)", "macOS Monterey (12.7.6)", "macOS Ventura (13.7.1)",
-    "macOS Sonoma (14.7.1)", "macOS Sequoia (15.1.1)", "Exit"
+$options 
+   = @(
+    "macOS Lion (10.7.5)", 
+    "macOS Mountain Lion (10.8.5)", 
+    "macOS Mavericks (10.9.5)", 
+    "macOS Yosemite (10.10.5)",
+    "macOS El Capitan (10.11.6)", 
+    "macOS Sierra (10.12.6)", 
+    "macOS High Sierra (10.13.6)", 
+    "macOS Mojave (10.14.6)",
+    "macOS Catalina (10.15.7)", 
+    "macOS Big Sur (11.7.10)", 
+    "macOS Monterey (12.7.6)", 
+    "macOS Ventura (13.7.1)",
+    "macOS Sonoma (14.7.1)", 
+    "macOS Sequoia (15.1.1)", 
+    "Exit"
 )
 
 for ($i = 0; $i -lt $options.Count; $i++) {
