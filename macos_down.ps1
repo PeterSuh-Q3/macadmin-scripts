@@ -25,8 +25,7 @@ function Check-RecoveryFolder {
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/acidanthera/OpenCorePkg/master/Utilities/macrecovery/macrecovery.py" -OutFile "macrecovery.py"
 
 Write-Host 'Select a macOS recovery version:'
-$options 
-   = @(
+$options = @(
     "macOS Lion (10.7.5)", 
     "macOS Mountain Lion (10.8.5)", 
     "macOS Mavericks (10.9.5)", 
