@@ -2,11 +2,14 @@
 
 ```
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PeterSuh-Q3/macadmin-scripts/refs/heads/main/macos_down.ps1" -OutFile "macos_down.ps1"
-
+```
+```
 Set-ExecutionPolicy Bypass -Scope LocalMachine
-
+```
+```
 Get-ExecutionPolicy
-
+```
+```
 ./macos_down.ps1
 ```
 
