@@ -42,13 +42,25 @@ except ImportError:
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
-try:
-    import xattr
-except ImportError:
-    print("This tool requires the Python xattr module. "
-          "Perhaps run `pip install xattr` to install it.")
-    sys.exit(-1)
+import os
+import platform
 
+def set_file_attribute(file_path, attr_name, attr_value):
+    if platform.system() == 'Windows':
+        # Windows
+        pass
+    elif platform.system() in ['Linux', 'Darwin']:
+        # Linux/macOS
+        try:
+            import xattr
+        except ImportError:
+            print("This tool requires the Python xattr module. "
+                  "Perhaps run `pip install xattr` to install it.")
+            sys.exit(-1)
+
+        xattr.setxattr(file_path, attr_name, attr_value)
+    else:
+        raise NotImplementedError("Unsupported operating system")
 
 DEFAULT_SUCATALOGS = {
     '17': 'https://swscan.apple.com/content/catalogs/others/'
