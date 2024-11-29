@@ -655,8 +655,54 @@ def main():
             if installer_app:
                 print("Adding seeding program %s extended attribute to app"
                       % seeding_program)
-                xattr.setxattr(installer_app, 'SeedProgram',
-                               seeding_program.encode("UTF-8"))
+
+                def set_file_attribute(file_path, attr_name, attr_value):
+                    if platform.system() == 'Windows':
+                        # Windows
+                        import win32security
+                        import win32file
+                        import win32api
+                        
+                        # Add the seeding program extended attribute to the app if applicable
+                        seeding_program = get_seeding_program(su_catalog_url)
+                        if seeding_program:
+                            installer_app = find_installer_app(mountpoint)
+                            if installer_app:
+                                print("Adding seeding program %s extended attribute to app" % seeding_program)
+                                
+                                # Function to set extended attribute using NTFS alternate data streams
+                                def set_extended_attribute(file_path, attr_name, attr_value):
+                                    # Open the file with write access
+                                    handle = win32file.CreateFile(
+                                        file_path,
+                                        win32file.GENERIC_WRITE,
+                                        win32file.FILE_SHARE_READ | win32file.FILE_SHARE_WRITE,
+                                        None,
+                                        win32file.OPEN_EXISTING,
+                                        0,
+                                        None
+                                    )
+                                    
+                                    try:
+                                        # Create the alternate data stream name
+                                        stream_name = f"{attr_name}:$DATA"
+                                        
+                                        # Write the attribute value to the alternate data stream
+                                        win32file.WriteFile(handle, attr_value.encode('utf-8'), None)
+                                    finally:
+                                        # Close the file handle
+                                        win32file.CloseHandle(handle)
+                                
+                                # Set the SeedProgram extended attribute
+                                set_extended_attribute(installer_app, 'SeedProgram', seeding_program)
+                    
+                    elif platform.system() in ['Linux', 'Darwin']:
+                        # Linux/macOS
+                        xattr.setxattr(installer_app, 'SeedProgram',
+                                       seeding_program.encode("UTF-8"))
+                    else:
+                        raise NotImplementedError("Unsupported operating system")
+                
         print('Product downloaded and installed to %s' % sparse_diskimage_path)
         if args.raw:
             unmountdmg(mountpoint)
