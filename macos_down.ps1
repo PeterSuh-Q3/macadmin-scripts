@@ -37,9 +37,9 @@ $options = @(
     "macOS Catalina (10.15.7)",
     "macOS Big Sur (11.7.10)",
     "macOS Monterey (12.7.4)",
-    "macOS Ventura (13.7.7)",
-    "macOS Sonoma (14.7.7)",
-    "macOS Sequoia (15.6)",
+    "macOS Ventura (13.7.8)",
+    "macOS Sonoma (14.7.8)",
+    "macOS Sequoia (15.6.1)",
     "Exit"
 )
 
