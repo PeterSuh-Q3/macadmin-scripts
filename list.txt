@@ -1,3 +1,5 @@
+macOS Tahoe 26.0
+macOS Sequoia 15.7
 macOS Sequoia 15.6.1
 macOS Sequoia 15.6
 macOS Sequoia 15.5
@@ -5,6 +7,7 @@ macOS Sequoia 15.4.1
 macOS Sequoia 15.4
 macOS Sequoia 15.3.2
 macOS Sequoia 15.3.1
+macOS Sonoma 14.8
 macOS Sonoma 14.7.8
 macOS Sonoma 14.7.7
 macOS Sonoma 14.7.6
