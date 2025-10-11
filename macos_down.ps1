@@ -40,6 +40,7 @@ $options = @(
     "macOS Ventura (13.7.8)",
     "macOS Sonoma (14.8.1)",
     "macOS Sequoia (15.7.1)",
+    "macOS Tahoe (26.0.1)",
     "Exit"
 )
 
