@@ -76,7 +76,8 @@ jobs:
               "macOS Monterey": "12.7.6",
               "macOS Ventura": "13.7.1",
               "macOS Sonoma": "14.7.1",
-              "macOS Sequoia": "15.1.1"
+              "macOS Sequoia": "15.1.1",
+              "macOS Tahoe": "26.0.1"
           }
 
           # latest_versions.txt 읽기
