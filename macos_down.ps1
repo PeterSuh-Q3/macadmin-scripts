@@ -43,6 +43,7 @@ $options = @(
     "macOS Tahoe (26.0.1)",
     "Exit"
 )
+)
 
 for ($i = 0; $i -lt $options.Count; $i++) {
     Write-Host "$($i+1): $($options[$i])"
