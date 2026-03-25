@@ -1,11 +1,14 @@
+macOS Tahoe 26.4
 macOS Tahoe 26.3.2
 macOS Tahoe 26.3.1
 macOS Tahoe 26.3
 macOS Tahoe 26.2
 macOS Tahoe 26.1
+macOS Sequoia 15.7.5
 macOS Sequoia 15.7.4
 macOS Sequoia 15.7.3
 macOS Sequoia 15.7.2
+macOS Sonoma 14.8.5
 macOS Sonoma 14.8.4
 macOS Sonoma 14.8.3
 macOS Sonoma 14.8.2
