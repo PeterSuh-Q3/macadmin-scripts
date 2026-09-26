@@ -260,6 +260,7 @@ $options = @(
 )
 )
 )
+)
 
 for ($i = 0; $i -lt $options.Count; $i++) {
     Write-Host "$($i+1): $($options[$i])"
