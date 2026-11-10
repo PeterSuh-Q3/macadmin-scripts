@@ -1,11 +1,14 @@
+macOS 27 Golden Gate 27.2.1
 macOS 27 Golden Gate 27.2
 macOS 27 Golden Gate 27.0.1
 macOS 27 Golden Gate 27.0
+macOS Tahoe 26.7.3
 macOS Tahoe 26.7.2
 macOS Tahoe 26.7.1
 macOS Tahoe 26.7
 macOS Tahoe 26.6.2
 macOS Tahoe 26.6.1
+macOS Sequoia 15.8.3
 macOS Sequoia 15.8.2
 macOS Sequoia 15.8.1
 macOS Sequoia 15.8
