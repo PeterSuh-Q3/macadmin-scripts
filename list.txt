@@ -7,7 +7,6 @@ macOS Tahoe 26.7.2
 macOS Tahoe 26.7.1
 macOS Tahoe 26.7
 macOS Tahoe 26.6.2
-macOS Tahoe 26.6.1
 macOS Sequoia 15.8.3
 macOS Sequoia 15.8.2
 macOS Sequoia 15.8.1
